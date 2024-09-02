@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Game Extension</title>
+</head>
+<body>
+    <h1>AI Game Extension</h1>
+    <input type="text" id="prompt" placeholder="Enter prompt">
+    <button onclick="generateAndPerform()">Generate & Perform</button>
+    <div id="output"></div>
+
+    <script src="/eel.js"></script>
+    <script>
+        async function generateAndPerform() {
+            const prompt = document.getElementById("prompt").value;
+            const generatedText = await eel.generate_text(prompt)();
+            document.getElementById("output").textContent = generatedText;
+
+            // Extract action from generated text
+            const action = extractActionFromText(generatedText); 
+            if (action) {
+                eel.perform_game_action(action)();
+            }
+        }
+
+        function extractActionFromText(text) {
+            // Example logic: Extract action based on keywords
+            text = text.toLowerCase();
+            if (text.includes("jump")) {
+                return "jump";
+            } else if (text.includes("move left")) {
+                return "move_left";
+            } else {
+                return null; // No action found
+            }
+        }
+    </script>
+</body>
+</html>
